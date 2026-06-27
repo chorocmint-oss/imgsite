@@ -1,6 +1,0 @@
-{
-  "name": "Character Archive",
-  "description": "Visual archive for characters and chats",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
