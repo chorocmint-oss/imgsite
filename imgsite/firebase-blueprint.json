@@ -1,0 +1,19 @@
+{
+  "entities": {
+    "MarkdownPost": {
+      "title": "Markdown Post",
+      "type": "object",
+      "properties": {
+        "path": { "type": "string" },
+        "content": { "type": "string" }
+      },
+      "required": ["path", "content"]
+    }
+  },
+  "firestore": {
+    "/markdowns/{markdownId}": {
+      "schema": { "$ref": "#/entities/MarkdownPost" },
+      "description": "Dynamic markdowns"
+    }
+  }
+}
