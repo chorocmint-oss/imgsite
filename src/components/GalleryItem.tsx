@@ -5,19 +5,16 @@ import { ImageOff } from 'lucide-react';
 type GalleryItemProps = {
   key?: string | number;
   image: ImageInfo;
-  layout?: 'masonry' | 'grid';
   onClick: () => void;
 };
 
-export default function GalleryItem({ image, layout = 'masonry', onClick }: GalleryItemProps) {
+export default function GalleryItem({ image, onClick }: GalleryItemProps) {
   const [hasError, setHasError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
     <div 
-      className={`relative group cursor-zoom-in w-full rounded-[12px] overflow-hidden bg-[#1A1616] break-inside-avoid border border-transparent hover:border-[#CFA7A0]/30 transition-all duration-[600ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:shadow-[0_8px_30px_rgb(207,167,160,0.1)] 
-      ${layout === 'masonry' ? 'mb-[32px] hover:scale-[1.015]' : 'h-full hover:scale-[1.03]'}
-      ${(hasError || !isLoaded) ? 'aspect-[4/5]' : ''}`}
+      className={`relative group cursor-zoom-in w-full rounded-[12px] overflow-hidden bg-[#1A1616] break-inside-avoid border border-transparent hover:border-[#CFA7A0]/30 transition-all duration-[600ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:shadow-[0_8px_30px_rgb(207,167,160,0.1)] h-full hover:scale-[1.03] ${(hasError || !isLoaded) ? 'aspect-[4/5]' : ''}`}
       onClick={onClick}
     >
       {(!isLoaded && !hasError) && (
@@ -44,10 +41,7 @@ export default function GalleryItem({ image, layout = 'masonry', onClick }: Gall
             decoding="async"
             onLoad={() => setIsLoaded(true)}
             onError={() => setHasError(true)}
-            className={`w-full object-cover transition-all duration-1000 ease-out transform
-              ${layout === 'masonry' ? 'h-auto' : 'h-full absolute inset-0'}
-              ${isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-110'}
-            `}
+            className={`w-full object-cover transition-all duration-1000 ease-out transform h-full absolute inset-0 ${isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-110'}`}
           />
         </>
       )}

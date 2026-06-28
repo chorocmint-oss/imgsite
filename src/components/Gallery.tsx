@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { LayoutGrid, GalleryVertical } from 'lucide-react';
 import { ImageInfo } from '../types';
 import GalleryItem from './GalleryItem';
 
@@ -11,7 +9,6 @@ type GalleryProps = {
 };
 
 export default function Gallery({ images, title, description, onImageClick }: GalleryProps) {
-  const [layout, setLayout] = useState<'masonry' | 'grid'>('masonry');
   const displayTitle = title || "Character Archive";
 
   const renderHeader = () => (
@@ -21,23 +18,6 @@ export default function Gallery({ images, title, description, onImageClick }: Ga
           <h2 className="text-[32px] font-serif font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#E8E2D9] via-[#CFA7A0] to-[#E8E2D9] bg-[length:200%_auto] animate-text-panning tracking-[0.04em] leading-none mb-0">
             {displayTitle}
           </h2>
-        </div>
-        
-        <div className="flex items-start gap-2 bg-[#2A2424]/30 rounded-full p-1.5 border border-[#8D9B87]/20 shrink-0">
-          <button 
-            onClick={() => setLayout('masonry')}
-            className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${layout === 'masonry' ? 'bg-[#CFA7A0]/20 text-[#CFA7A0]' : 'text-[#8D9B87]/60 hover:text-[#8D9B87]'}`}
-            title="Masonry Layout"
-          >
-            <GalleryVertical className="w-4 h-4" />
-          </button>
-          <button 
-            onClick={() => setLayout('grid')}
-            className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${layout === 'grid' ? 'bg-[#CFA7A0]/20 text-[#CFA7A0]' : 'text-[#8D9B87]/60 hover:text-[#8D9B87]'}`}
-            title="Grid Layout"
-          >
-            <LayoutGrid className="w-4 h-4" />
-          </button>
         </div>
       </div>
 
@@ -68,16 +48,11 @@ export default function Gallery({ images, title, description, onImageClick }: Ga
     <div className="flex flex-col h-full min-h-screen p-8 md:px-[64px] md:py-12 max-w-[1800px] mx-auto">
       {renderHeader()}
 
-      <div className={
-        layout === 'masonry' 
-          ? "columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-[32px] flex-1"
-          : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[32px] flex-1 auto-rows-[300px]"
-      }>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[32px] flex-1 auto-rows-[300px]">
         {images.map((img, idx) => (
           <GalleryItem 
             key={img.id} 
             image={img} 
-            layout={layout}
             onClick={() => onImageClick(idx)} 
           />
         ))}

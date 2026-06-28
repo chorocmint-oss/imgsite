@@ -64,7 +64,7 @@ export default function Admin() {
         };
       }));
       
-      filesData.sort((a, b) => new Date(b.timeCreated).getTime() - new Date(a.timeCreated).getTime());
+      filesData.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
       setStorageFiles(filesData);
     } catch (error) {
       console.error("Error loading storage:", error);
@@ -91,8 +91,13 @@ export default function Admin() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
     
+    // Sort files by name naturally (e.g. 1.jpg, 2.jpg, 10.jpg)
+    const sortedFiles = Array.from(files).sort((a, b) => 
+      a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
+    );
+    
     setUploadingImage(true);
-    setUploadProgress({ current: 0, total: files.length });
+    setUploadProgress({ current: 0, total: sortedFiles.length });
     setError('');
     try {
       let completedCount = 0;
@@ -100,15 +105,15 @@ export default function Admin() {
       
       let hasError = false;
 
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+      for (let i = 0; i < sortedFiles.length; i++) {
+        const file = sortedFiles[i];
         
         try {
           let fileToUpload: File | Blob = file;
           if (file.type !== 'image/gif' && file.type !== 'image/webp') {
             const options = {
-              maxSizeMB: 0.5,
-              maxWidthOrHeight: 1200,
+              maxSizeMB: 1.5,
+              maxWidthOrHeight: 1920,
               useWebWorker: true,
             };
             try {
